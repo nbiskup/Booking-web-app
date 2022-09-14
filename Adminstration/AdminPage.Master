@@ -1,0 +1,68 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="AdminPage.Master.cs" Inherits="Adminstration.Admin" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <link href="Styles/AdminMaster.css" rel="stylesheet" />
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="CSS/ImageGalery.css" rel="stylesheet" />
+</head>
+<body>
+    <form id="form1" runat="server">
+        <nav>
+
+            <ul>
+                <asp:Panel ID="pnlUnregisteredUser" runat="server">
+
+                    <li><a href="LogIn.aspx">Log in</a></li>
+                </asp:Panel>
+
+                <asp:Panel ID="pnlRegisteredUser" runat="server">
+                    <li><a href="Apartments.aspx" class="navbar-brand" style="float: left">
+                        <img src="Images/RWA_NavIcon.png" /></a></li>
+                    <li><a href="Apartments.aspx">RWA Apartments Admin</a></li>
+                    <li><a href="Apartments.aspx">Apartments</a></li>
+                    <li><a href="Tags.aspx">Tags</a></li>
+                    <li><a href="RegisteredUsers.aspx">Registered users</a></li>
+                    <li class='nav-item' style="float: right">
+                        <asp:Button class='nav-link btn btn-danger text-white' runat="server" Text="Logout" OnClick="btnLogout_Click" />
+                    </li>
+                </asp:Panel>
+            </ul>
+
+
+        </nav>
+
+        <asp:ContentPlaceHolder ID="ContentPlaceHolderMain" runat="server">
+        </asp:ContentPlaceHolder>
+    </form>
+
+    <footer class="d-block mt-5">
+        <p>RWA - Nikola Biskup &copy; <%: DateTime.Now.Year %> </p>
+    </footer>
+
+    <%--BOOTSTRAP--%>
+    <script src="Scripts/bootstrap.min.js"></script>
+
+    <!-- JQUERY-->
+    <script src="Scripts/jquery-3.6.0.min.js"></script>
+
+    <script src="//cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable();
+        });
+    </script>
+
+    <%--Images--%>
+    <script src="Scripts/ImageGalery.js"></script>
+
+</body>
+</html>

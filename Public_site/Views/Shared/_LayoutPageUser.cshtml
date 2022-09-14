@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class=' navbar-expand navbar-light'>
+        <ul class='nav navbar-nav '>
+            <li class='nav-item '>
+                <img src="~/Images/RWA_NavIcon.png" width="50" height="40" style="object-fit: cover; padding: 7px;" />
+            </li>
+            <li class='nav-item '>
+                @Html.ActionLink("Apartments", "Index", "Home", null, new { @class = "nav-link text-white" })
+            </li>
+            <li class='nav-item'>
+                @Html.ActionLink("Logout", "Logout", "Login", null, new { @class = "nav-link text-white " })
+            </li>
+        </ul>
+    </div>
+
+    <div class='container body-content'>
+        @RenderBody()
+    </div>
+
+    <footer>
+        <p>RWA - Nikola Biskup &copy; @DateTime.Now.Year</p>
+    </footer>
+
+    <link href="~/CSS/_layoutPage.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+    @Scripts.Render("~/Scripts")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+
+

@@ -1,0 +1,115 @@
+﻿@using RwaLib.MODELS;
+@{
+    IList<ApartmentPicture> apartmentPictures = ViewBag.apartmentPictures as List<ApartmentPicture>;
+    IList<Apartment> apartments = ViewBag.apartments as List<Apartment>;
+    IList<SelectListItem> selectItems = ViewBag.selectItems as List<SelectListItem>;
+
+    if (Session["user"] != null)
+    {
+        Layout = "~/Views/Shared/_LayoutPageUser.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_LayoutPage.cshtml";
+    }
+
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+
+<body>
+
+
+    @using (Html.BeginForm("Index", "Home"))
+    {
+        <div class="d-flex flex-row flex-wrap justify-content-around" style="margin:30px auto">
+
+            <div class="p-lg-2 d-flex filter">
+                <div class="p-lg-2">
+                    @Html.Label(labelText: "Rooms: ", expression: "rooms")
+                </div>
+                @Html.TextBox("rooms", null, new { @type = "number", @min = "0", @style = "width:60px" })
+            </div>
+            <div class="p-lg-2 d-flex filter">
+                <div class="p-lg-2">
+                    @Html.Label(labelText: "Children: ", expression: "children")
+                </div>
+                @Html.TextBox("children", null, new { @type = "number", @min = "0", @style = "width:60px" })
+            </div>
+            <div class="p-lg-2 d-flex filter">
+                <div class="p-lg-2">
+                    @Html.Label(labelText: "Adults: ", expression: "adults")
+                </div>
+                @Html.TextBox("adults", null, new { @type = "number", @min = "0", @style = "width:60px" })
+            </div>
+
+            <div>
+                <input type="submit" value="Filter" class="btn btn-success" />
+            </div>
+        </div>
+    }
+
+    <div class="d-flex m-lg-1" style="float:right">
+        @Html.Label(labelText: "Sort:", expression: "sort")
+        @Html.DropDownList(name: "ddlSortApartments", selectList: new List<SelectListItem> { new SelectListItem { Text = "Default", Value = "0", Selected = ViewBag.sort == "Default" ? true : false }, new SelectListItem { Text = "Asc", Value = "1", Selected = ViewBag.sort == "Asc" ? true : false }, new SelectListItem { Text = "Desc", Value = "2", Selected = ViewBag.sort == "Desc" ? true : false } });
+    </div>
+
+    @if (apartments != null)
+    {
+        <div class="d-flex flex-row flex-wrap justify-content-around">
+
+            @foreach (Apartment apartment in apartments)
+            {
+                if (apartment.StatusId == 3)
+                {
+                    <div class="d-flex" style="width:550px; height:350px; ">
+                        <div>
+                            <img src="@apartmentPictures.FirstOrDefault(p => p.ApartmentId == apartment.Id && p.IsRepresentative).Path" width="400" height="350" style="object-fit: cover; padding: 15px;" />
+                        </div>
+
+                        <div class="d-flex flex-column m-2">
+                            <p style="margin:0px">
+                                @for (int i = 0; i < apartment.Review; i++)
+                                {
+                                    <b>&#9733;</b>
+                                }
+                            </p>
+                            <p><b>Name: @apartment.NameEng</b></p>
+                            <p><b>Price: </b>@apartment.Price €</p>
+                            <p style="margin:0px"><b>Rooms: </b>@apartment.TotalRooms</p>
+                            <p style="margin:0px"><b>Adults: </b>@apartment.MaxAdults</p>
+                            <p style="margin:0px"><b>Children: </b>@apartment.MaxChildren</p>
+                            <p><b>Beach distance: </b>@apartment.BeachDistance m</p>
+                            @Html.ActionLink("Reserve", "ApartmentPage", new { apartmentId = apartment.Id }, new { @class = "btn btn-primary" })
+
+                        </div>
+                    </div>
+                }
+            }
+
+        </div>
+    }
+
+
+    @section scripts {
+
+        <script>
+            $(document).ready(function () {
+                $("#ddlSortApartments").change(function () {
+                    var current = $('option:selected', $(this)).text();
+                    var url = '@Url.Action("Index","Home")?sortedBy=' + current
+                    window.location.href = url;
+                });
+            });
+        </script>
+    }
+
+</body>
+</html>
